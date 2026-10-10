@@ -22,7 +22,11 @@ test("published ZIPs survive catalog updates without changing bytes", () => {
     return { id: "example", version, file: file.slice(5), sha256, bytes: bytes.length };
   };
   const catalog = (packs) => write("site/catalog.json", JSON.stringify({ schemaVersion: 1, packs }));
-  const check = () => spawnSync(process.execPath, [join(root, "scripts/check-immutability.mjs")], { cwd: root, encoding: "utf8" });
+  const check = (baseRef) => spawnSync(process.execPath, [join(root, "scripts/check-immutability.mjs")], {
+    cwd: root,
+    encoding: "utf8",
+    env: { ...process.env, ...(baseRef ? { MARKETPLACE_BASE_REF: baseRef } : {}) },
+  });
 
   try {
     git("init", "-q", "-b", "main");
@@ -32,6 +36,7 @@ test("published ZIPs survive catalog updates without changing bytes", () => {
     catalog([first]);
     git("add", ".");
     execFileSync("git", ["-c", "user.name=Test", "-c", "user.email=test@example.com", "commit", "-qm", "publish v1"], { cwd: root });
+    const firstCommit = execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim();
     git("update-ref", "refs/remotes/origin/main", "HEAD");
 
     const second = archive("2.0.0", "second ZIP bytes");
@@ -53,6 +58,19 @@ test("published ZIPs survive catalog updates without changing bytes", () => {
     result = check();
     assert.equal(result.status, 1, "replacing a listed version must fail");
     assert.match(result.stderr, /Published ZIP changed without a version bump/);
+
+    catalog([second]);
+    rmSync(join(root, `site/${first.file}`));
+    git("add", "-A");
+    execFileSync("git", ["-c", "user.name=Test", "-c", "user.email=test@example.com", "commit", "-qm", "publish v2"], { cwd: root });
+    git("update-ref", "refs/remotes/origin/main", "HEAD");
+    result = check(firstCommit);
+    assert.equal(result.status, 1, "a direct push must compare with the previous commit");
+    assert.match(result.stderr, /Published ZIP was removed/);
+
+    result = check("f".repeat(40));
+    assert.equal(result.status, 1, "an unavailable baseline must fail closed");
+    assert.match(result.stderr, /Cannot inspect published baseline/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

@@ -6,16 +6,24 @@ import { resolve } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
 const current = JSON.parse(readFileSync(resolve(root, "site/catalog.json"), "utf8"));
+const base = process.env.MARKETPLACE_BASE_REF?.trim() || "origin/main";
 function git(...args) {
   return execFileSync("git", args, { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
 }
-let previous;
-try {
-  previous = JSON.parse(git("show", "origin/main:site/catalog.json"));
-} catch {
-  console.log("No previous published catalog on main");
+if (/^0{40}$/.test(base)) {
+  console.log("No previous published catalog on the first push");
   process.exit(0);
 }
+try {
+  git("rev-parse", "--verify", `${base}^{commit}`);
+} catch {
+  throw new Error(`Cannot inspect published baseline: ${base}`);
+}
+if (!git("ls-tree", "-r", "--name-only", base, "--", "site/catalog.json")) {
+  console.log(`No previous published catalog at ${base}`);
+  process.exit(0);
+}
+const previous = JSON.parse(git("show", `${base}:site/catalog.json`));
 assert.equal(previous.schemaVersion, 1);
 const byVersion = new Map(current.packs.map((entry) => [`${entry.id}@${entry.version}`, entry]));
 for (const old of previous.packs) {
@@ -26,7 +34,7 @@ for (const old of previous.packs) {
     assert.equal(next.bytes, old.bytes, `Published ZIP size changed: ${old.id}`);
   }
 }
-const published = git("ls-tree", "-r", "origin/main", "--", "site/packs")
+const published = git("ls-tree", "-r", base, "--", "site/packs")
   .split("\n")
   .filter(Boolean);
 for (const line of published) {
