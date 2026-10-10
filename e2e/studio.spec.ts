@@ -6,6 +6,19 @@ import { parsePack } from "../src/lib/pack";
 
 const sampleZip = resolve("site", (JSON.parse(readFileSync("site/catalog.json", "utf8")) as { packs: { id: string; file: string }[] }).packs.find((pack) => pack.id === "noto-favorites")!.file);
 
+test("decodes every published catalog pack in the browser", async ({ page }) => {
+  test.setTimeout(120_000);
+  const catalog = JSON.parse(readFileSync("site/catalog.json", "utf8")) as {
+    packs: { id: string; name: string; file: string }[];
+  };
+  await page.goto("/studio/");
+  for (const pack of catalog.packs) {
+    await page.locator("#zip-input").setInputFiles(resolve("site", pack.file));
+    await expect(page.locator("#result-badge"), pack.id).toHaveText("Passed");
+    await expect(page.locator("#result-title"), pack.id).toHaveText(pack.name);
+  }
+});
+
 test("validates a sticker ZIP locally and shows its pack details", async ({
   page,
 }) => {
