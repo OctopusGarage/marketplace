@@ -4,6 +4,8 @@
 
 Place `manifest.json` at the ZIP root and image files under `images/`. The ZIP must be at most 12 MiB, contain at most 256 entries, have at most 24 MiB of extracted content, and use images of at most 3 MiB each. Avatar and theme images must be PNG, JPEG, or WebP; sticker images may also be GIF. Animated WebP, APNG, and GIF stickers work in browsers that support those formats. SVG, CSS, JavaScript, remote image URLs, executables, and unrelated files are not accepted. `credits.json` is allowed for attribution. Names and IDs are plain text. Pack IDs must be 3–80 lowercase letters, digits, dots, underscores, or hyphens. Use a stable ID and increment `version` in `major.minor.patch` form when publishing an update; installing a pack with the same ID and library type replaces it. An avatar pack cannot replace a pack with the same ID in another avatar category.
 
+Every image in the ZIP must be referenced by the manifest. The validator rejects hidden or unused image files, and optional theme image fields must contain valid image paths when present.
+
 Create a source folder with this layout (replace the example images with your own):
 
 ```text
