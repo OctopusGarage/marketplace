@@ -12,3 +12,7 @@ A static, reusable catalog for image-only customization packs. The first consume
 Current migrated packs have `rightsStatus: "pending"` while source and reuse permissions are reviewed. The status does not assert ownership or a license. See [the rights queue](docs/RIGHTS_REVIEW.md) before reusing any artwork outside its original context.
 
 Publication happens after a reviewed PR merges into this repository's default branch and Pages deploys. A proposal issue or draft PR does not publish a pack. Mesh Talk keeps its own pinned default bundle; optional downloads come from this catalog.
+
+## License and artwork
+
+The format documentation and software tools are available under the [MIT code license](LICENSE-CODE), retaining the original Kingson Wu copyright notice from Mesh Talk. Pack artwork, source images, rendered previews, and generated ZIPs are **not** covered by that code license. Their source and reuse permissions are tracked separately in [the rights review queue](docs/RIGHTS_REVIEW.md), and all migrated packs currently remain pending.
