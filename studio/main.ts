@@ -107,7 +107,7 @@ async function showVerified(
   fact("Version / images", `${pack.version} / ${images.length}`);
   fact("SHA-256", checksum);
   preview.replaceChildren();
-  for (const image of images.slice(0, 8)) {
+  for (const image of images) {
     const thumbnail = document.createElement("img");
     thumbnail.src = image.url;
     thumbnail.alt = image.label;

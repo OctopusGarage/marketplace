@@ -10,7 +10,7 @@
     "pack:build": "node --experimental-strip-types scripts/pack.mjs build",
     "pack:check": "node --experimental-strip-types scripts/pack.mjs check",
     "check:catalog": "node --experimental-strip-types scripts/check-catalog.mjs",
-    "check:immutability": "node scripts/check-immutability.mjs",
+    "check:immutability": "node --test scripts/check-immutability.test.mjs && node scripts/check-immutability.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": { "fflate": "0.8.3" },

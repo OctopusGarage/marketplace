@@ -13,9 +13,19 @@ test("decodes every published catalog pack in the browser", async ({ page }) => 
   };
   await page.goto("/studio/");
   for (const pack of catalog.packs) {
+    const decoded = parsePack(readFileSync(resolve("site", pack.file)));
+    const imageCount =
+      decoded.kind === "avatar"
+        ? decoded.avatars.length
+        : decoded.kind === "sticker"
+          ? decoded.stickers.length
+          : Number(!!decoded.wallpaper) +
+            Number(!!decoded.crest) +
+            (decoded.wallpapers?.length ?? 0);
     await page.locator("#zip-input").setInputFiles(resolve("site", pack.file));
     await expect(page.locator("#result-badge"), pack.id).toHaveText("Passed");
     await expect(page.locator("#result-title"), pack.id).toHaveText(pack.name);
+    await expect(page.locator("#preview img"), pack.id).toHaveCount(imageCount);
   }
 });
 
