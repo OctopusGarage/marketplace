@@ -17,9 +17,9 @@ test("published ZIPs survive catalog updates without changing bytes", () => {
   const archive = (version, contents) => {
     const bytes = Buffer.from(contents);
     const sha256 = createHash("sha256").update(bytes).digest("hex");
-    const file = `site/packs/example/${version}/${sha256}.zip`;
+    const file = `site/packs/cat_icons/${version}/${sha256}.zip`;
     write(file, bytes);
-    return { id: "example", version, file: file.slice(5), sha256, bytes: bytes.length };
+    return { id: "cat_icons", version, file: file.slice(5), sha256, bytes: bytes.length };
   };
   const catalog = (packs) => write("site/catalog.json", JSON.stringify({ schemaVersion: 1, packs }));
   const check = (baseRef) => spawnSync(process.execPath, [join(root, "scripts/check-immutability.mjs")], {

@@ -37,7 +37,7 @@ if (git("ls-tree", "-r", "--name-only", base, "--", "site/catalog.json")) {
 const published = new Map();
 for (const commit of git("rev-list", base, "--", "site/packs").split("\n").filter(Boolean)) {
   for (const line of git("ls-tree", "-r", commit, "--", "site/packs").split("\n").filter(Boolean)) {
-    const match = /^(100644|100755) blob ([a-f0-9]+)\t(site\/packs\/[a-z0-9][a-z0-9-]*\/[0-9]+\.[0-9]+\.[0-9]+\/[a-f0-9]{64}\.zip)$/.exec(line);
+    const match = /^(100644|100755) blob ([a-f0-9]+)\t(site\/packs\/[a-z0-9][a-z0-9._-]{2,79}\/[0-9]+\.[0-9]+\.[0-9]+\/[a-f0-9]{64}\.zip)$/.exec(line);
     assert.ok(match, `Invalid published artifact: ${line}`);
     const [, , oldBlob, path] = match;
     const prior = published.get(path);

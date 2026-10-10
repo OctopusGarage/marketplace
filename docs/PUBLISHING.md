@@ -11,3 +11,4 @@ Keep every previously published ZIP when releasing a new version, even after it 
 The catalog's `rightsStatus` reports documentation state, not a safety certification. Current migrated artwork is marked `pending` until rights records are complete. A maintainer should not change that field to `documented` without source and reuse evidence in the repository.
 
 The site is static GitHub Pages, and all URLs in the catalog are relative to the marketplace site. No server, account, or user upload service is involved. ZIP submissions are reviewed in GitHub before publication.
+Manual Pages deployments run only from `main`; selecting another ref skips the deployment job.
