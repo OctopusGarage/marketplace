@@ -16,7 +16,9 @@ for (const entry of catalog) {
   assert.match(entry.version, /^\d+\.\d+\.\d+$/);
   assert.ok(!ids.has(entry.id), `duplicate pack ${entry.id}`);
   ids.add(entry.id);
-  assert.deepEqual(entry.apps, ["mesh-talk"]);
+  assert.ok(Array.isArray(entry.apps) && entry.apps.length > 0, `missing app targets: ${entry.id}`);
+  for (const app of entry.apps) assert.match(app, /^[a-z0-9][a-z0-9-]{2,79}$/);
+  assert.equal(new Set(entry.apps).size, entry.apps.length, `duplicate app target: ${entry.id}`);
   assert.ok(["documented", "pending"].includes(entry.rightsStatus));
   assert.match(entry.sha256, /^[a-f0-9]{64}$/);
   assert.equal(entry.file, `packs/${entry.id}/${entry.version}/${entry.sha256}.zip`);
