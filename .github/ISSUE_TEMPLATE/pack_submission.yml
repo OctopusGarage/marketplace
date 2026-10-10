@@ -1,0 +1,42 @@
+name: Propose a pack
+description: Propose an avatar, theme, or sticker pack for review
+labels: [pack-proposal]
+body:
+  - type: markdown
+    attributes:
+      value: "A proposal does not publish a pack. Please do not upload artwork you cannot share."
+  - type: input
+    id: id
+    attributes:
+      label: Pack ID and version
+      placeholder: example.reactions 1.0.0
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Type
+      options: [Avatar, Theme, Sticker]
+    validations:
+      required: true
+  - type: textarea
+    id: apps
+    attributes:
+      label: Intended apps and preview
+      description: Link to screenshots and explain where the pack appears.
+    validations:
+      required: true
+  - type: textarea
+    id: rights
+    attributes:
+      label: Artwork source and rights
+      description: Give source links, license or permission, and required attribution for every image.
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation output and source link
+      description: Link to your source folder and paste the Pack Studio or CLI result.
+    validations:
+      required: true

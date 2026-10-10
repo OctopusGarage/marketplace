@@ -1,0 +1,16 @@
+{
+  "name": "@octopusgarage/marketplace",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build:studio": "vite build --config vite.config.ts",
+    "pack:build": "node --experimental-strip-types scripts/pack.mjs build",
+    "pack:check": "node --experimental-strip-types scripts/pack.mjs check",
+    "check:catalog": "node --experimental-strip-types scripts/check-catalog.mjs",
+    "check:immutability": "node scripts/check-immutability.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": { "fflate": "0.8.3" },
+  "devDependencies": { "typescript": "^5.6.3", "vite": "^8.3.2" }
+}
