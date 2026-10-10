@@ -26,7 +26,7 @@ jobs:
           cache: npm
       - run: npm ci && npm run check:catalog && npm run check:immutability && npm run build:studio
         env:
-          MARKETPLACE_BASE_REF: ${{ github.event_name == 'push' && github.event.before || 'HEAD^' }}
+          MARKETPLACE_BASE_REF: ${{ github.event_name == 'push' && github.event.before || 'HEAD' }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:

@@ -38,6 +38,7 @@ test("published ZIPs survive catalog updates without changing bytes", () => {
     execFileSync("git", ["-c", "user.name=Test", "-c", "user.email=test@example.com", "commit", "-qm", "publish v1"], { cwd: root });
     const firstCommit = execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim();
     git("update-ref", "refs/remotes/origin/main", "HEAD");
+    assert.equal(check("HEAD").status, 0, "a manual deployment from the initial commit should pass");
 
     const second = archive("2.0.0", "second ZIP bytes");
     catalog([second]);
@@ -66,6 +67,15 @@ test("published ZIPs survive catalog updates without changing bytes", () => {
     git("update-ref", "refs/remotes/origin/main", "HEAD");
     result = check(firstCommit);
     assert.equal(result.status, 1, "a direct push must compare with the previous commit");
+    assert.match(result.stderr, /Published ZIP was removed/);
+
+    const secondCommit = execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim();
+    write("README.md", "another push after the failed deployment");
+    git("add", "README.md");
+    execFileSync("git", ["-c", "user.name=Test", "-c", "user.email=test@example.com", "commit", "-qm", "later push"], { cwd: root });
+    git("update-ref", "refs/remotes/origin/main", "HEAD");
+    result = check(secondCommit);
+    assert.equal(result.status, 1, "a later push must still protect ZIPs from older releases");
     assert.match(result.stderr, /Published ZIP was removed/);
 
     result = check("f".repeat(40));
