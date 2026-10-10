@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "build:studio": "vite build --config vite.config.ts",
+    "test:studio": "npm run build:studio && playwright test",
     "pack:build": "node --experimental-strip-types scripts/pack.mjs build",
     "pack:check": "node --experimental-strip-types scripts/pack.mjs check",
     "check:catalog": "node --experimental-strip-types scripts/check-catalog.mjs",
@@ -13,5 +14,5 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": { "fflate": "0.8.3" },
-  "devDependencies": { "typescript": "^5.6.3", "vite": "^8.3.2" }
+  "devDependencies": { "@playwright/test": "1.63.0", "@types/node": "^26.6.4", "typescript": "^5.6.3", "vite": "^8.3.2" }
 }

@@ -1,3 +1,5 @@
 node_modules/
 site/studio/
 .DS_Store
+test-results/
+playwright-report/

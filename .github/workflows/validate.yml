@@ -23,6 +23,7 @@ jobs:
       - run: npm run typecheck
       - run: npm run check:catalog
       - run: npm run check:immutability
-      - run: npm run build:studio
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:studio
       - run: python3 scripts/build-market.py
       - run: git diff --exit-code -- site/catalog.json site/packs site/previews
