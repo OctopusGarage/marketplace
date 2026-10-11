@@ -1,0 +1,87 @@
+import assert from "node:assert/strict";
+import { execFileSync, spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
+import { copyFileSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { dirname, join } from "node:path";
+import { test } from "node:test";
+
+test("published ZIPs survive catalog updates without changing bytes", () => {
+  const root = mkdtempSync(join(tmpdir(), "marketplace-immutability-"));
+  const git = (...args) => execFileSync("git", args, { cwd: root, stdio: "ignore" });
+  const write = (path, value) => {
+    const destination = join(root, path);
+    mkdirSync(dirname(destination), { recursive: true });
+    writeFileSync(destination, value);
+  };
+  const archive = (version, contents) => {
+    const bytes = Buffer.from(contents);
+    const sha256 = createHash("sha256").update(bytes).digest("hex");
+    const file = `site/packs/cat_icons/${version}/${sha256}.zip`;
+    write(file, bytes);
+    return { id: "cat_icons", version, file: file.slice(5), sha256, bytes: bytes.length };
+  };
+  const catalog = (packs) => write("site/catalog.json", JSON.stringify({ schemaVersion: 1, packs }));
+  const check = (baseRef) => spawnSync(process.execPath, [join(root, "scripts/check-immutability.mjs")], {
+    cwd: root,
+    encoding: "utf8",
+    env: { ...process.env, ...(baseRef ? { MARKETPLACE_BASE_REF: baseRef } : {}) },
+  });
+
+  try {
+    git("init", "-q", "-b", "main");
+    mkdirSync(join(root, "scripts"), { recursive: true });
+    copyFileSync(new URL("check-immutability.mjs", import.meta.url), join(root, "scripts/check-immutability.mjs"));
+    const first = archive("1.0.0", "first ZIP bytes");
+    catalog([first]);
+    git("add", ".");
+    execFileSync("git", ["-c", "user.name=Test", "-c", "user.email=test@example.com", "commit", "-qm", "publish v1"], { cwd: root });
+    const firstCommit = execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim();
+    git("update-ref", "refs/remotes/origin/main", "HEAD");
+    assert.equal(check("HEAD").status, 0, "a manual deployment from the initial commit should pass");
+
+    const second = archive("2.0.0", "second ZIP bytes");
+    catalog([second]);
+    assert.equal(check().status, 0, "a retained older ZIP should remain valid");
+
+    rmSync(join(root, first.file.replace(/^/, "site/")));
+    let result = check();
+    assert.equal(result.status, 1, "a removed older ZIP must fail");
+    assert.match(result.stderr, /Published ZIP was removed/);
+
+    write(`site/${first.file}`, "modified ZIP bytes");
+    result = check();
+    assert.equal(result.status, 1, "changed bytes at a published URL must fail");
+    assert.match(result.stderr, /Published ZIP bytes changed/);
+
+    write(`site/${first.file}`, "first ZIP bytes");
+    catalog([{ ...first, sha256: second.sha256, file: second.file }]);
+    result = check();
+    assert.equal(result.status, 1, "replacing a listed version must fail");
+    assert.match(result.stderr, /Published ZIP changed without a version bump/);
+
+    catalog([second]);
+    rmSync(join(root, `site/${first.file}`));
+    git("add", "-A");
+    execFileSync("git", ["-c", "user.name=Test", "-c", "user.email=test@example.com", "commit", "-qm", "publish v2"], { cwd: root });
+    git("update-ref", "refs/remotes/origin/main", "HEAD");
+    result = check(firstCommit);
+    assert.equal(result.status, 1, "a direct push must compare with the previous commit");
+    assert.match(result.stderr, /Published ZIP was removed/);
+
+    const secondCommit = execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim();
+    write("README.md", "another push after the failed deployment");
+    git("add", "README.md");
+    execFileSync("git", ["-c", "user.name=Test", "-c", "user.email=test@example.com", "commit", "-qm", "later push"], { cwd: root });
+    git("update-ref", "refs/remotes/origin/main", "HEAD");
+    result = check(secondCommit);
+    assert.equal(result.status, 1, "a later push must still protect ZIPs from older releases");
+    assert.match(result.stderr, /Published ZIP was removed/);
+
+    result = check("f".repeat(40));
+    assert.equal(result.status, 1, "an unavailable baseline must fail closed");
+    assert.match(result.stderr, /Cannot inspect published baseline/);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
