@@ -25,7 +25,7 @@ test("published ZIPs survive catalog updates without changing bytes", () => {
   const check = (baseRef) => spawnSync(process.execPath, [join(root, "scripts/check-immutability.mjs")], {
     cwd: root,
     encoding: "utf8",
-    env: { ...process.env, ...(baseRef ? { MARKETPLACE_BASE_REF: baseRef } : {}) },
+    env: { ...process.env, MARKETPLACE_BASE_REF: baseRef ?? "origin/main" },
   });
 
   try {
