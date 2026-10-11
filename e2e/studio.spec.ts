@@ -4,9 +4,18 @@ import { resolve } from "node:path";
 import { strToU8, unzipSync, zipSync } from "fflate";
 import { parsePack } from "../src/lib/pack";
 
-const sampleZip = resolve("site", (JSON.parse(readFileSync("site/catalog.json", "utf8")) as { packs: { id: string; file: string }[] }).packs.find((pack) => pack.id === "noto-favorites")!.file);
+const sampleZip = resolve(
+  "site",
+  (
+    JSON.parse(readFileSync("site/catalog.json", "utf8")) as {
+      packs: { id: string; file: string }[];
+    }
+  ).packs.find((pack) => pack.id === "noto-favorites")!.file,
+);
 
-test("decodes every published catalog pack in the browser", async ({ page }) => {
+test("decodes every published catalog pack in the browser", async ({
+  page,
+}) => {
   test.setTimeout(120_000);
   const catalog = JSON.parse(readFileSync("site/catalog.json", "utf8")) as {
     packs: { id: string; name: string; file: string }[];
@@ -79,6 +88,69 @@ test("rejects a ZIP with an image that cannot be decoded", async ({ page }) => {
   await expect(page.locator("#result-badge")).toHaveText("Failed");
   await expect(page.locator("#result-message")).toContainText(
     "cannot be decoded",
+  );
+});
+
+test("rejects an image named only by an unsupported manifest field", async ({
+  page,
+}) => {
+  const bytes = zipSync({
+    "manifest.json": strToU8(
+      JSON.stringify({
+        format: 1,
+        id: "test.hidden",
+        version: "1.0.0",
+        name: "Hidden image",
+        kind: "theme",
+        base: "dark",
+        colors: { primary: "170 70% 55%" },
+        file: "images/hidden.png",
+      }),
+    ),
+    "images/hidden.png": new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10, 0]),
+  });
+  await page.goto("/studio/");
+  await page.locator("#zip-input").setInputFiles({
+    name: "hidden.zip",
+    mimeType: "application/zip",
+    buffer: Buffer.from(bytes),
+  });
+  await expect(page.locator("#result-badge")).toHaveText("Failed");
+  await expect(page.locator("#result-message")).toContainText(
+    "Unreferenced image",
+  );
+});
+
+test("rejects excessive image dimensions before decoding", async ({ page }) => {
+  const oversizedPng = new Uint8Array(24);
+  oversizedPng.set([137, 80, 78, 71, 13, 10, 26, 10]);
+  oversizedPng.set(strToU8("IHDR"), 12);
+  oversizedPng.set([0, 0, 0x20, 0], 16);
+  oversizedPng.set([0, 0, 0, 1], 20);
+  const bytes = zipSync({
+    "manifest.json": strToU8(
+      JSON.stringify({
+        format: 1,
+        id: "test.huge",
+        version: "1.0.0",
+        name: "Huge",
+        kind: "avatar",
+        category: "personal",
+        fit: "cover",
+        avatars: [{ label: "Huge", file: "images/huge.png" }],
+      }),
+    ),
+    "images/huge.png": oversizedPng,
+  });
+  await page.goto("/studio/");
+  await page.locator("#zip-input").setInputFiles({
+    name: "huge.zip",
+    mimeType: "application/zip",
+    buffer: Buffer.from(bytes),
+  });
+  await expect(page.locator("#result-badge")).toHaveText("Failed");
+  await expect(page.locator("#result-message")).toContainText(
+    "dimensions exceed",
   );
 });
 
