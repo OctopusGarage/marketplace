@@ -23,6 +23,7 @@ jobs:
       - run: npm run typecheck
       - run: npm run test:pack
       - run: npm run check:catalog
+      - run: npm run check:previews
       - run: npm run check:immutability
         env:
           MARKETPLACE_BASE_REF: ${{ github.event_name == 'push' && github.event.before || 'origin/main' }}

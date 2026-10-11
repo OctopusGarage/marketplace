@@ -16,7 +16,7 @@
       "file": "packs/players/1.0.0/72755fb5ed856964d33435400311b84f00f69760caadd4da0dc5d6fa4026f0eb.zip",
       "bytes": 195473,
       "preview": "previews/players.webp",
-      "previewSha256": "7a83a931437c9a13d3780b59a42281984354d5b95db11e6bda3099f156519c72",
+      "previewSha256": "2203e74d25fc9ba24bc41167cdb85054894cab3357bb1d4897ae34fc45aef5d1",
       "sha256": "72755fb5ed856964d33435400311b84f00f69760caadd4da0dc5d6fa4026f0eb"
     },
     {
@@ -34,7 +34,7 @@
       "file": "packs/nba-players/1.0.0/ae762965b2f0cdf9dba53023e278bff641a5983f8825c1dac24647a282f0e795.zip",
       "bytes": 518615,
       "preview": "previews/nba-players.webp",
-      "previewSha256": "62360ab4f360e45154a2737f27bcef292022883b153dde47b0759cf5df4005ab",
+      "previewSha256": "ab73c6966265bb284d2a40e52452e49e2acdd7617e4cb23b4c8fd77367ce8a0a",
       "sha256": "ae762965b2f0cdf9dba53023e278bff641a5983f8825c1dac24647a282f0e795"
     },
     {
@@ -52,7 +52,7 @@
       "file": "packs/sports/1.0.0/972cb82fe589fea545e6c6259308c1ee163b78fbead94018df647c5beaa65623.zip",
       "bytes": 192232,
       "preview": "previews/sports.jpg",
-      "previewSha256": "8196eb12b800ac76cda92b01779ba20aeccd5cb17ff3e5533efcd5b36b43bf2d",
+      "previewSha256": "844f407b2da405987424e8e94eaafcdb51bc1431b759c0c5b24cf3f225474c1f",
       "sha256": "972cb82fe589fea545e6c6259308c1ee163b78fbead94018df647c5beaa65623"
     },
     {
@@ -70,7 +70,7 @@
       "file": "packs/famous/1.0.0/0f3dabab98290f7a2a94a715bbe05c444f73920e684677d7099848db6afa0455.zip",
       "bytes": 316353,
       "preview": "previews/famous.jpg",
-      "previewSha256": "1c0ac44c50582613974b80c504573611a01850d57bb537673b869a9faf34e74a",
+      "previewSha256": "ceb81a40e0ccc13ee2b2f20eda4fcc1f35e8c672d734405da00eb0f82ed35f99",
       "sha256": "0f3dabab98290f7a2a94a715bbe05c444f73920e684677d7099848db6afa0455"
     },
     {
@@ -88,7 +88,7 @@
       "file": "packs/cat-acrylic-avatars/1.0.0/ca3a3b6c1586205bd91bae326f1f69ce2814d491d082634665aa235a7c8934a3.zip",
       "bytes": 389201,
       "preview": "previews/cat-acrylic-avatars.webp",
-      "previewSha256": "c5dac8d3ec27cebde5a895853a01af88c6bc242111c51aa1ee53c7395914f716",
+      "previewSha256": "d77b1e59d4983e30abdf2a4fb13510c03d836e739cdcffc15e5b176bde390239",
       "sha256": "ca3a3b6c1586205bd91bae326f1f69ce2814d491d082634665aa235a7c8934a3"
     },
     {
@@ -124,7 +124,7 @@
       "file": "packs/clubs/1.0.0/529ce25f6a4a9735eb22db1df687baff468e87cc68c9db351a1c066fd4ae7838.zip",
       "bytes": 797471,
       "preview": "previews/clubs.png",
-      "previewSha256": "fb175dfcd0d6febc5086f4e2772cf19ddd728a7adbf3f42ec3d987480e583d2e",
+      "previewSha256": "ad72fc5997a3184f2916cbfa74a397cd647c58e27bdfb10e6b40a6917e71ea9c",
       "sha256": "529ce25f6a4a9735eb22db1df687baff468e87cc68c9db351a1c066fd4ae7838"
     },
     {
@@ -142,7 +142,7 @@
       "file": "packs/nba-teams/1.0.0/9780e16912ba219058171bc1c9b233116dc3cab86f599bc4338ffadf31dc4f36.zip",
       "bytes": 298339,
       "preview": "previews/nba-teams.webp",
-      "previewSha256": "2ba224deb505832a193b38e5586cc15f90aba26befca324819ae5f0e1222f3ee",
+      "previewSha256": "513479ba3b3d2d486022efff1217c0d7613a42f95e75db01ebeb768a044a2986",
       "sha256": "9780e16912ba219058171bc1c9b233116dc3cab86f599bc4338ffadf31dc4f36"
     },
     {
@@ -210,7 +210,7 @@
       "file": "packs/nature/1.0.0/aac84e963785b892e411ea1c7603ba04d3770a114caa1b80017f87779256a5d8.zip",
       "bytes": 4350542,
       "preview": "previews/nature.webp",
-      "previewSha256": "5defd3796c211050bcf37ae0af446424b12fb8b25169a8e5af4c83de32cdfe61",
+      "previewSha256": "70cf0b87c31fc80edb13ff39e046d67a1e644a2c18dbd95b3ba498bf177a9538",
       "sha256": "aac84e963785b892e411ea1c7603ba04d3770a114caa1b80017f87779256a5d8"
     },
     {
@@ -227,7 +227,7 @@
       "file": "packs/cat-acrylic/1.0.0/bca23f634025025b483778a1cb7f1e9be92aeccde862bfc72aa5a88ec205faf9.zip",
       "bytes": 1121353,
       "preview": "previews/cat-acrylic.webp",
-      "previewSha256": "bbfa9f97fbb3ce63cd6bfbd307d5708783a172ff9b6cf2a8452f004743cacaa3",
+      "previewSha256": "9a631475f4a0a748f67282ec03907d41e3b2ea72322b886cc109a117381550c0",
       "sha256": "bca23f634025025b483778a1cb7f1e9be92aeccde862bfc72aa5a88ec205faf9"
     },
     {
@@ -244,7 +244,7 @@
       "file": "packs/noto-favorites/1.0.0/f5f2506720fe90d182b294360261c6679517bd5a56becf547a6ee6cb9c2ac1ad.zip",
       "bytes": 1368221,
       "preview": "previews/noto-favorites.webp",
-      "previewSha256": "c7724a8a95d3bd47ab2eac53b9c4cd9e82b949b367252924c44ca7c6c35c13fc",
+      "previewSha256": "c29be72b75c676c38b637d7d9fbd8a3d16d47de52164137d03fafc7666efa972",
       "sha256": "f5f2506720fe90d182b294360261c6679517bd5a56becf547a6ee6cb9c2ac1ad"
     },
     {
@@ -261,7 +261,7 @@
       "file": "packs/cats/1.0.0/6ba0f66d1767b59bf8a969d0a341916d62177d1b9f8f4dbe828e3059b6ce8d3d.zip",
       "bytes": 422519,
       "preview": "previews/cats.webp",
-      "previewSha256": "91ac2f5159770a83fa2ee6b6791ce211a0b6f06d10bcbb8a15e839d445b0eb55",
+      "previewSha256": "9a350518d37e39ad4e6060f4ab36a4cd53596772787b03a62db3b33d393eed36",
       "sha256": "6ba0f66d1767b59bf8a969d0a341916d62177d1b9f8f4dbe828e3059b6ce8d3d"
     }
   ]

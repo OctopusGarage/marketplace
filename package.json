@@ -12,6 +12,7 @@
     "pack:build": "node --experimental-strip-types scripts/pack.mjs build",
     "pack:check": "node --experimental-strip-types scripts/pack.mjs check",
     "check:catalog": "node --experimental-strip-types scripts/check-catalog.mjs",
+    "check:previews": "node --test scripts/check-previews.test.mjs",
     "check:immutability": "node --test scripts/check-immutability.test.mjs && node scripts/check-immutability.mjs",
     "typecheck": "tsc --noEmit"
   },

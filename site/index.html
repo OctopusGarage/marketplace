@@ -324,8 +324,8 @@
         </div>
         <div class="hero-art" aria-label="Preview of marketplace artwork">
           <div class="art-label"><span>Made for your space</span><span>01 / 03</span></div>
-          <img class="art-main" src="previews/nature.webp" alt="Nature theme preview" fetchpriority="high" />
-          <img class="art-sticker" src="previews/cat-acrylic-avatars.webp" alt="Cat Acrylic avatar preview" />
+          <img class="art-main" src="previews/nature.webp?v=70cf0b87c31f" data-preview-id="nature" alt="Nature theme preview" fetchpriority="high" />
+          <img class="art-sticker" src="previews/cat-acrylic-avatars.webp?v=d77b1e59d498" data-preview-id="cat-acrylic-avatars" alt="Cat Acrylic avatar preview" />
           <span class="art-caption">Pick a look. Make it yours.</span>
         </div>
       </section>
@@ -423,7 +423,7 @@
           const card = document.createElement("article");
           const preview = document.createElement("img");
           preview.className = "pack-preview";
-          preview.src = item.preview;
+          preview.src = `${item.preview}?v=${item.previewSha256.slice(0, 12)}`;
           preview.alt = `Preview of ${item.name}`;
           preview.loading = "lazy";
           preview.addEventListener("error", () => {
@@ -511,6 +511,10 @@
           if (catalog.schemaVersion !== 1 || !Array.isArray(catalog.packs))
             throw new Error("Unsupported catalog");
           items = catalog.packs;
+          for (const image of document.querySelectorAll("[data-preview-id]")) {
+            const item = items.find((pack) => pack.id === image.dataset.previewId);
+            if (item) image.src = `${item.preview}?v=${item.previewSha256.slice(0, 12)}`;
+          }
           appFilter.replaceChildren(new Option("All apps", "all"));
           for (const app of [...new Set(items.flatMap((item) => item.apps))].sort()) {
             appFilter.append(new Option(app === "mesh-talk" ? "Mesh Talk" : app, app));

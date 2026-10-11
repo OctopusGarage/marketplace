@@ -14,6 +14,7 @@ PACKS = OUT / "packs"
 PACKS.mkdir(parents=True, exist_ok=True)
 PALETTES = json.loads((ASSETS / "theme-colors.json").read_text())
 RIGHTS = json.loads((ASSETS / "rights-status.json").read_text())
+PREVIEW_COVERS = json.loads((ASSETS / "preview-covers.json").read_text())
 CATALOG = []
 
 
@@ -46,7 +47,19 @@ def publish(manifest, files, description):
     digest = hashlib.sha256(archive.read_bytes()).hexdigest()
     final_archive = archive.with_name(f"{digest}.zip")
     archive.rename(final_archive)
-    preview_source = next((name for name in files if name.startswith("images/")), None)
+    cover_path = PREVIEW_COVERS.get(manifest["id"])
+    if cover_path:
+        cover_file = {}
+        cover_name = add_image(cover_file, ASSETS / cover_path)
+        cover_bytes = cover_file[cover_name]
+        preview_source = next(
+            (name for name, content in files.items()
+             if name.startswith("images/") and content == cover_bytes), None
+        )
+        if not preview_source:
+            raise ValueError(f"Cover is not in pack: {manifest['id']} ({cover_path})")
+    else:
+        preview_source = next((name for name in files if name.startswith("images/")), None)
     if not preview_source:
         raise ValueError(f"Pack has no preview image: {manifest['id']}")
     preview = OUT / "previews" / f"{manifest['id']}{Path(preview_source).suffix}"
