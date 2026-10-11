@@ -3,11 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <meta
       name="description"
       content="Discover avatar, theme, and sticker libraries for compatible apps."
     />
-    <title>Customization Marketplace — OctopusGarage</title>
+    <title>Avatar, theme & sticker packs — OctopusGarage Marketplace</title>
     <style>
       :root {
         color-scheme: dark;
@@ -231,43 +232,110 @@
           width: 100%;
         }
       }
+      html { scroll-behavior: smooth; }
+      body { background: radial-gradient(circle at 85% 3%, #123640 0, #08141a 39rem); }
+      .skip-link { position: absolute; top: -60px; left: 16px; z-index: 10; padding: 10px 14px; background: #2fe6ce; color: #08141a; }
+      .skip-link:focus { top: 12px; }
+      nav { min-height: 78px; }
+      .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 15px; letter-spacing: -.03em; }
+      .brand img { width: 30px; height: 30px; }
+      .nav-links { display: flex; align-items: center; gap: 24px; }
+      .nav-links a { color: #b7d0cb; font-size: 13px; font-weight: 600; }
+      .nav-links a:hover, footer a:hover, .text-link:hover { color: #2fe6ce; }
+      main { padding-block: 0 100px; }
+      .hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, .87fr); align-items: center; gap: clamp(32px, 6vw, 90px); padding-block: clamp(72px, 9vw, 128px) 88px; }
+      .hero h1 { max-width: 720px; margin: 16px 0 22px; font-size: clamp(48px, 6.8vw, 88px); line-height: .98; }
+      .hero h1 em { color: #2fe6ce; font-style: normal; }
+      .hero .intro { margin: 0; max-width: 570px; font-size: clamp(16px, 1.7vw, 19px); }
+      .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+      .primary-link, .secondary-link { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 11px 18px; border-radius: 8px; font-size: 14px; font-weight: 700; text-decoration: none; }
+      .primary-link { background: #2fe6ce; color: #08141a; }
+      .primary-link:hover { background: #83f3e3; }
+      .secondary-link { border: 1px solid #39636a; color: #e9f2f0; }
+      .secondary-link:hover { border-color: #2fe6ce; }
+      .hero-note { margin: 17px 0 0; color: #8baba7; font-size: 12px; }
+      .hero-art { position: relative; min-height: 420px; padding: 30px 28px 18px; border: 1px solid #28535b; border-radius: 24px; background: linear-gradient(145deg, #153942, #0b2029 64%); box-shadow: 0 30px 80px #0004; overflow: hidden; }
+      .hero-art::before { content: ''; position: absolute; width: 390px; height: 390px; left: -125px; top: -190px; border: 1px solid #35656b; border-radius: 50%; }
+      .art-label { position: relative; display: flex; justify-content: space-between; color: #a8c1bc; font: 700 11px/1.4 ui-monospace, SFMono-Regular, monospace; letter-spacing: .12em; text-transform: uppercase; }
+      .art-main { position: relative; display: block; width: 75%; aspect-ratio: 1.45; margin: 35px auto 0 0; border: 7px solid #e8f2eb; border-radius: 8px; object-fit: cover; transform: rotate(-5deg); box-shadow: 0 18px 30px #0008; }
+      .art-sticker { position: absolute; width: 34%; aspect-ratio: 1; object-fit: cover; right: 4%; bottom: 34px; border: 7px solid #e8f2eb; border-radius: 12px; transform: rotate(8deg); box-shadow: 0 18px 30px #0008; }
+      .art-caption { position: absolute; left: 28px; bottom: 24px; color: #a8c1bc; font: 600 11px ui-monospace, SFMono-Regular, monospace; }
+      .section-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 25px; }
+      .section-head h2 { margin: 8px 0 0; font-size: clamp(32px, 4vw, 48px); line-height: 1.1; }
+      .section-head p { max-width: 430px; margin: 0; color: #a8c1bc; font-size: 14px; line-height: 1.6; }
+      .catalog { scroll-margin-top: 28px; }
+      .tools { margin: 0 0 14px; padding: 18px; border: 1px solid #28535b; border-radius: 13px; background: #0b2028; }
+      .filters { flex: 1 1 auto; }
+      .filters button { min-height: 38px; }
+      #search { min-width: min(100%, 230px); min-height: 40px; }
+      #message { min-height: 22px; margin: 0 0 16px; color: #a8c1bc; font-size: 13px; }
+      .feedback { margin-bottom: 22px; padding: 28px; border: 1px solid #28535b; border-radius: 12px; background: #102832; }
+      .feedback p { margin: 0 0 14px; color: #c4d7d2; }
+      .feedback button { border-color: #2fe6ce; color: #2fe6ce; }
+      .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+      article { min-width: 0; padding: 12px 12px 20px; border-color: #28535b; border-radius: 15px; transition: transform .2s, border-color .2s; }
+      article:hover { transform: translateY(-3px); border-color: #57968e; }
+      .pack-preview { height: 205px; margin-bottom: 18px; border-radius: 8px; object-fit: cover; }
+      .card-content { display: flex; flex: 1; flex-direction: column; padding: 0 7px; }
+      .kind { color: #64e4d2; }
+      article h3 { margin: 10px 0 7px; font-size: 21px; letter-spacing: -.035em; }
+      article .description { min-height: 42px; margin-bottom: 12px; }
+      .pack-details { margin-bottom: 18px; }
+      .download { margin-top: auto; padding: 9px 13px; }
+      .checksum-details { margin-top: 15px; }
+      .credits { display: inline-block; margin-top: 10px; }
+      .guide { display: grid; grid-template-columns: .8fr 1.2fr; gap: 55px; margin-top: 90px; padding: 38px; border: 1px solid #28535b; border-radius: 18px; background: #0b2028; }
+      .guide h2 { margin: 8px 0 14px; font-size: clamp(28px, 3vw, 40px); }
+      .guide p { color: #a8c1bc; line-height: 1.6; }
+      .guide ol { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; counter-reset: step; }
+      .guide li { display: flex; gap: 15px; color: #c4d7d2; line-height: 1.5; counter-increment: step; }
+      .guide li::before { content: counter(step, decimal-leading-zero); flex: none; color: #2fe6ce; font: 700 13px ui-monospace, SFMono-Regular, monospace; }
+      .rights-note { max-width: 800px; margin: 26px 0 0; color: #91ada8; font-size: 13px; line-height: 1.6; }
+      footer { background: #09191f; }
+      footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+      @media (max-width: 900px) { .hero { grid-template-columns: 1fr; padding-top: 70px; } .hero-art { max-width: 580px; width: 100%; } .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+      @media (max-width: 600px) { .wrap { width: min(100% - 32px, 1100px); } .nav-links { gap: 12px; } .nav-links .source-link { display: none; } .hero { padding-block: 58px 65px; } .hero-art { min-height: 350px; } .section-head { display: block; } .section-head p { margin-top: 12px; } .tools { padding: 13px; } #search, #app-filter { width: 100%; margin: 0; } .grid { grid-template-columns: 1fr; } .guide { grid-template-columns: 1fr; gap: 18px; padding: 26px; } }
+      @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } article { transition: none; } }
     </style>
   </head>
   <body>
+    <a class="skip-link" href="#catalog">Skip to catalog</a>
     <header>
-      <nav class="wrap">
-        <a class="brand" href="./">Octopus<span>·</span>Marketplace</a
-        ><a class="back" href="https://github.com/OctopusGarage/marketplace">View source ↗</a>
+      <nav class="wrap" aria-label="Main navigation">
+        <a class="brand" href="./"><img src="./favicon.svg" alt="" />Octopus<span>·</span>Marketplace</a>
+        <div class="nav-links">
+          <a href="#catalog">Explore packs</a>
+          <a href="studio/">Pack Studio</a>
+          <a class="source-link" href="https://github.com/OctopusGarage/marketplace">GitHub ↗</a>
+        </div>
       </nav>
     </header>
     <main class="wrap">
-      <div class="eyebrow">Customize your space</div>
-      <h1>Make it yours.</h1>
-      <p class="intro">
-        Discover optional avatar, theme, and sticker libraries. Each download is
-        a data-only ZIP pack: images and a manifest, with no executable code. The catalog currently supports Mesh Talk, and its format is open to other apps.
-      </p>
-      <div class="hint">
-        <strong>Install in Mesh Talk:</strong> Open Settings → Appearance for
-        themes, choose a profile or channel avatar to open the gallery, or open
-        the chat sticker picker and expand Manage sticker packs. You can install
-        a pack directly from the in-app marketplace, or download a ZIP here and
-        choose <strong>Install ZIP</strong>.
-      </div>
-      <p>
-        Made your own pack? Read the
-        <a
-          href="https://github.com/OctopusGarage/marketplace/blob/main/docs/PACK_FORMAT.md"
-          >creation and safety guide</a
-        >
-        or
-        <a
-          href="https://github.com/OctopusGarage/marketplace/issues/new?template=pack_submission.yml"
-          >propose it for the marketplace</a
-        >.
-      </p>
-      <a class="studio-link" href="studio/">Open Pack Studio →</a>
-      <div class="tools">
+      <section class="hero" aria-labelledby="page-title">
+        <div>
+          <div class="eyebrow">The customization library</div>
+          <h1 id="page-title">A little more <em>you.</em></h1>
+          <p class="intro">Find avatars, themes, and stickers for Mesh Talk. Browse the collection, download a pack, and make your space feel like yours.</p>
+          <div class="hero-actions">
+            <a class="primary-link" href="#catalog">Explore the collection →</a>
+            <a class="secondary-link" href="studio/">Create a pack ↗</a>
+          </div>
+          <p class="hero-note">Image and manifest ZIPs only · No executable code in packs</p>
+        </div>
+        <div class="hero-art" aria-label="Preview of marketplace artwork">
+          <div class="art-label"><span>Made for your space</span><span>01 / 03</span></div>
+          <img class="art-main" src="previews/nature.webp" alt="Nature theme preview" fetchpriority="high" />
+          <img class="art-sticker" src="previews/cat-acrylic-avatars.webp" alt="Cat Acrylic avatar preview" />
+          <span class="art-caption">Pick a look. Make it yours.</span>
+        </div>
+      </section>
+
+      <section class="catalog" id="catalog" aria-labelledby="catalog-title">
+        <div class="section-head">
+          <div><span class="eyebrow">Browse the collection</span><h2 id="catalog-title">Find your next favorite.</h2></div>
+          <p>Filter by type or app, then download a ZIP to install in a compatible app.</p>
+        </div>
+      <div class="tools" role="group" aria-label="Catalog filters">
         <select id="app-filter" aria-label="Filter by app">
           <option value="all">All apps</option>
         </select>
@@ -296,14 +364,31 @@
         />
       </div>
       <p id="message" role="status">Loading libraries…</p>
+      <div class="feedback" id="empty-state" hidden>
+        <p>No libraries found for these filters. Try a different search or see the full collection.</p>
+        <button id="clear-filters" type="button">Clear filters</button>
+      </div>
+      <div class="feedback" id="error-state" hidden>
+        <p>The catalog could not be loaded. Check your connection and try again.</p>
+        <button id="retry" type="button">Try again</button>
+      </div>
       <div class="grid" id="packs"></div>
+      </section>
+
+      <section class="guide" aria-labelledby="guide-title">
+        <div><span class="eyebrow">Getting started</span><h2 id="guide-title">From here to your app.</h2><p>Mesh Talk can install directly from its in-app marketplace. You can also download a ZIP here and install it yourself.</p></div>
+        <ol>
+          <li>Pick a pack from the collection and download its ZIP.</li>
+          <li>In Mesh Talk, open Settings → Appearance for themes, an avatar gallery for people or channels, or Manage sticker packs in the sticker picker.</li>
+          <li>Choose <strong>Install ZIP</strong> and select the downloaded file.</li>
+        </ol>
+      </section>
+      <p class="rights-note">Artwork rights for the current collection are still under review. Check each pack’s status and the <a href="https://github.com/OctopusGarage/marketplace/blob/main/docs/RIGHTS_REVIEW.md">rights review queue</a> before reusing artwork outside its original context. Made your own? <a href="studio/">Build and check a pack in Studio</a>, then <a href="https://github.com/OctopusGarage/marketplace/issues/new?template=pack_submission.yml">propose it for the marketplace</a>.</p>
     </main>
     <footer>
       <div class="wrap">
-        OctopusGarage Marketplace ·
-        <a href="https://github.com/OctopusGarage/marketplace"
-          >Source on GitHub</a
-        >
+        <span>© OctopusGarage · Marketplace</span>
+        <span><a href="https://github.com/OctopusGarage/marketplace">Source on GitHub</a> · <a href="https://github.com/OctopusGarage/marketplace/blob/main/docs/PACK_FORMAT.md">Pack format</a></span>
       </div>
     </footer>
     <script type="module">
@@ -311,10 +396,13 @@
       const message = document.getElementById("message");
       const search = document.getElementById("search");
       const appFilter = document.getElementById("app-filter");
+      const emptyState = document.getElementById("empty-state");
+      const errorState = document.getElementById("error-state");
       const filters = [...document.querySelectorAll("[data-filter]")];
       let items = [];
       let active = "all";
       function render() {
+        if (!errorState.hidden) return;
         grid.replaceChildren();
         const query = search.value.trim().toLowerCase();
         const shown = items.filter(
@@ -326,9 +414,11 @@
             (item.name.toLowerCase().includes(query) ||
               item.description.toLowerCase().includes(query)),
         );
+        emptyState.hidden = shown.length > 0;
+        errorState.hidden = true;
         message.textContent = shown.length
-          ? `${shown.length} libraries`
-          : "No libraries match this search.";
+          ? `${shown.length} ${shown.length === 1 ? "pack" : "packs"} available`
+          : "No libraries found.";
         for (const item of shown) {
           const card = document.createElement("article");
           const preview = document.createElement("img");
@@ -336,6 +426,12 @@
           preview.src = item.preview;
           preview.alt = `Preview of ${item.name}`;
           preview.loading = "lazy";
+          preview.addEventListener("error", () => {
+            preview.alt = `Preview unavailable for ${item.name}`;
+            preview.classList.add("preview-unavailable");
+          });
+          const content = document.createElement("div");
+          content.className = "card-content";
           const kind = document.createElement("span");
           kind.className = "kind";
           const category =
@@ -349,9 +445,10 @@
           kind.textContent = item.version
             ? `${category} · v${item.version}`
             : category;
-          const title = document.createElement("h2");
+          const title = document.createElement("h3");
           title.textContent = item.name;
           const description = document.createElement("p");
+          description.className = "description";
           description.textContent = item.description;
           const download = document.createElement("a");
           download.className = "download";
@@ -361,7 +458,10 @@
           download.setAttribute("aria-label", `Download ${item.name} ZIP`);
           const details = document.createElement("p");
           details.className = "pack-details";
-          details.textContent = `${item.apps.join(", ")} · ${(item.bytes / 1024).toFixed(0)} KiB · rights ${item.rightsStatus}`;
+          const size = item.bytes >= 1024 * 1024
+            ? `${(item.bytes / 1024 / 1024).toFixed(1)} MB`
+            : `${Math.round(item.bytes / 1024)} KB`;
+          details.textContent = `${item.apps.map((app) => app === "mesh-talk" ? "Mesh Talk" : app).join(", ")} · ${size} · Artwork rights: ${item.rightsStatus}`;
           const checksumDetails = document.createElement("details");
           checksumDetails.className = "checksum-details";
           const checksumSummary = document.createElement("summary");
@@ -370,14 +470,15 @@
           checksum.textContent = `SHA-256 ${item.sha256}`;
           checksum.className = "checksum";
           checksumDetails.append(checksumSummary, checksum);
-          card.append(preview, kind, title, description, details, download, checksumDetails);
+          content.append(kind, title, description, details, download, checksumDetails);
+          card.append(preview, content);
           if (item.id === "cities") {
             const credits = document.createElement("a");
             credits.href =
               "https://github.com/OctopusGarage/marketplace/blob/main/assets/avatars/cities/credits.json";
             credits.textContent = "Image credits";
             credits.className = "credits";
-            card.append(credits);
+            content.append(credits);
           }
           grid.append(card);
         }
@@ -393,24 +494,36 @@
       );
       search.addEventListener("input", render);
       appFilter.addEventListener("change", render);
-      try {
-        const response = await fetch("catalog.json");
-        if (!response.ok) throw new Error("Catalog unavailable");
-        const catalog = await response.json();
-        if (catalog.schemaVersion !== 1 || !Array.isArray(catalog.packs))
-          throw new Error("Unsupported catalog");
-        items = catalog.packs;
-        for (const app of [...new Set(items.flatMap((item) => item.apps))].sort()) {
-          const option = document.createElement("option");
-          option.value = app;
-          option.textContent = app === "mesh-talk" ? "Mesh Talk" : app;
-          appFilter.append(option);
+      document.getElementById("clear-filters").addEventListener("click", () => {
+        search.value = "";
+        appFilter.value = "all";
+        filters[0].click();
+        search.focus();
+      });
+      async function loadCatalog() {
+        errorState.hidden = true;
+        emptyState.hidden = true;
+        message.textContent = "Loading libraries…";
+        try {
+          const response = await fetch("catalog.json", { cache: "no-cache" });
+          if (!response.ok) throw new Error("Catalog unavailable");
+          const catalog = await response.json();
+          if (catalog.schemaVersion !== 1 || !Array.isArray(catalog.packs))
+            throw new Error("Unsupported catalog");
+          items = catalog.packs;
+          appFilter.replaceChildren(new Option("All apps", "all"));
+          for (const app of [...new Set(items.flatMap((item) => item.apps))].sort()) {
+            appFilter.append(new Option(app === "mesh-talk" ? "Mesh Talk" : app, app));
+          }
+          render();
+        } catch {
+          grid.replaceChildren();
+          message.textContent = "Could not load the catalog.";
+          errorState.hidden = false;
         }
-        render();
-      } catch {
-        message.textContent =
-          "Could not load the marketplace. Please try again later.";
       }
+      document.getElementById("retry").addEventListener("click", loadCatalog);
+      loadCatalog();
     </script>
   </body>
 </html>
