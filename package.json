@@ -7,6 +7,8 @@
   "scripts": {
     "build:studio": "vite build --config vite.config.ts",
     "test:studio": "npm run build:studio && playwright test",
+    "test:pack": "node --test scripts/pack.test.mjs",
+    "eval:pack-tools": "node evals/run.mjs",
     "pack:build": "node --experimental-strip-types scripts/pack.mjs build",
     "pack:check": "node --experimental-strip-types scripts/pack.mjs check",
     "check:catalog": "node --experimental-strip-types scripts/check-catalog.mjs",

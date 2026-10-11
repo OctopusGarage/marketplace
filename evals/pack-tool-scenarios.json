@@ -1,0 +1,72 @@
+[
+  {
+    "id": "build-sticker-roundtrip",
+    "prompt": "Create a sticker ZIP from a source folder, download it, then verify the downloaded ZIP.",
+    "surface": "build",
+    "fixture": "sticker-source",
+    "expected": { "badge": "Passed", "title": "Eval stickers", "download": "eval.stickers.zip", "previewCount": 1 }
+  },
+  {
+    "id": "build-theme-roundtrip",
+    "prompt": "Create a theme ZIP with a wallpaper, download it, then verify the downloaded ZIP.",
+    "surface": "build",
+    "fixture": "theme-source",
+    "expected": { "badge": "Passed", "title": "Eval theme", "download": "eval.theme.zip", "previewCount": 1 }
+  },
+  {
+    "id": "build-missing-manifest",
+    "prompt": "Try to build a folder without a manifest. Explain what the creator must add and do not download a ZIP.",
+    "surface": "build",
+    "fixture": "missing-manifest-source",
+    "expected": { "badge": "Failed", "messageContains": "manifest.json at its root" }
+  },
+  {
+    "id": "build-missing-image",
+    "prompt": "Try to build a folder whose manifest references a missing image. Name the missing file and do not download a ZIP.",
+    "surface": "build",
+    "fixture": "missing-image-source",
+    "expected": { "badge": "Failed", "messageContains": "Missing image: images/joy.webp" }
+  },
+  {
+    "id": "build-invalid-image",
+    "prompt": "Try to build a folder containing invalid image bytes. Reject it and do not download a ZIP.",
+    "surface": "build",
+    "fixture": "invalid-image-source",
+    "expected": { "badge": "Failed", "messageContains": "Invalid image data" }
+  },
+  {
+    "id": "verify-valid-zip",
+    "prompt": "Verify a valid sticker ZIP locally and show its artwork without uploading anything.",
+    "surface": "verify",
+    "fixture": "valid-zip",
+    "expected": { "badge": "Passed", "title": "Eval stickers", "previewCount": 1 }
+  },
+  {
+    "id": "verify-dropped-zip",
+    "prompt": "Drop a valid sticker ZIP onto the verify target and show the same result as choosing the file.",
+    "surface": "drop",
+    "fixture": "valid-zip",
+    "expected": { "badge": "Passed", "title": "Eval stickers", "previewCount": 1 }
+  },
+  {
+    "id": "verify-unreferenced-image",
+    "prompt": "Verify a ZIP with an extra image not named by its manifest. Reject it without uploading anything.",
+    "surface": "verify",
+    "fixture": "unreferenced-image-zip",
+    "expected": { "badge": "Failed", "messageContains": "Unreferenced image" }
+  },
+  {
+    "id": "verify-invalid-image",
+    "prompt": "Verify a ZIP with invalid image bytes. Reject it without uploading anything.",
+    "surface": "verify",
+    "fixture": "invalid-image-zip",
+    "expected": { "badge": "Failed", "messageContains": "Invalid image data" }
+  },
+  {
+    "id": "verify-oversized-zip",
+    "prompt": "Reject a ZIP over the 12 MiB limit before processing its contents.",
+    "surface": "verify",
+    "fixture": "oversized-zip",
+    "expected": { "badge": "Failed", "messageContains": "12 MiB maximum" }
+  }
+]
