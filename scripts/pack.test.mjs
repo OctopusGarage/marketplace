@@ -9,7 +9,7 @@ import { unzipSync } from "fflate";
 
 const root = resolve(import.meta.dirname, "..");
 const catalog = JSON.parse(readFileSync(join(root, "site/catalog.json"), "utf8"));
-const sampleFile = catalog.packs.find((pack) => pack.id === "noto-favorites").file;
+const sampleFile = catalog.packs.find((pack) => pack.id === "google-noto").file;
 const sample = unzipSync(readFileSync(join(root, "site", sampleFile)))["images/1f602.webp"];
 
 function run(...args) {

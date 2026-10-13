@@ -4,6 +4,7 @@ import hashlib
 import io
 import json
 import re
+import unicodedata
 import zipfile
 from pathlib import Path
 
@@ -130,26 +131,30 @@ for pack_id, name, base, description in THEMES:
     publish(manifest, files, description)
 
 STICKER_SOURCE = ASSETS / "stickers/noto"
-STICKERS = [
-    ("1f44d", "Thumbs up"), ("1f602", "Joy"), ("1f60d", "Heart eyes"),
-    ("1f622", "Crying"), ("1f64f", "Thank you"), ("1f680", "Rocket"),
-    ("1f389", "Celebration"), ("2764_fe0f", "Heart"),
-]
+STICKER_LABELS = {
+    "1f44d": "Thumbs up", "1f602": "Joy", "1f60d": "Heart eyes",
+    "1f622": "Crying", "1f64f": "Thank you", "1f680": "Rocket",
+    "1f389": "Celebration", "2764_fe0f": "Heart",
+}
 sticker_files = {}
 sticker_entries = []
-for sticker_id, sticker_label in STICKERS:
-    source = STICKER_SOURCE / f"{sticker_id}.webp"
+for source in sorted(STICKER_SOURCE.glob("*.webp")):
+    sticker_id = source.stem
+    fallback = "".join(chr(int(codepoint, 16)) for codepoint in sticker_id.split("_"))
+    sticker_label = STICKER_LABELS.get(sticker_id, unicodedata.name(fallback[0]).title())
     destination = f"images/{sticker_id}.webp"
     sticker_files[destination] = source.read_bytes()
     sticker_entries.append({
         "id": sticker_id,
         "label": sticker_label,
-        "fallback": "".join(chr(int(codepoint, 16)) for codepoint in sticker_id.split("_")),
+        "fallback": fallback,
         "file": destination,
     })
-publish({"format": 1, "id": "noto-favorites", "version": "1.0.0",
-         "name": "Noto Favorites", "kind": "sticker", "stickers": sticker_entries},
-        sticker_files, "Eight animated emoji stickers from Google Noto")
+if len(sticker_entries) != 40:
+    raise ValueError(f"Expected 40 Google Noto stickers, found {len(sticker_entries)}")
+publish({"format": 1, "id": "google-noto", "version": "1.0.0",
+         "name": "Google Noto", "kind": "sticker", "stickers": sticker_entries},
+        sticker_files, "Forty animated emoji stickers from Google Noto")
 
 CAT_STICKER_SOURCE = ASSETS / "stickers/cats"
 cat_metadata = json.loads((CAT_STICKER_SOURCE / "metadata.json").read_text())

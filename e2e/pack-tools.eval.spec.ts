@@ -26,7 +26,7 @@ const catalog = JSON.parse(readFileSync("site/catalog.json", "utf8")) as {
   packs: { id: string; file: string }[];
 };
 const stickerZip = readFileSync(
-  resolve("site", catalog.packs.find((pack) => pack.id === "noto-favorites")!.file),
+  resolve("site", catalog.packs.find((pack) => pack.id === "google-noto")!.file),
 );
 const stickerImage = unzipSync(stickerZip)["images/1f602.webp"];
 const invalidImage = strToU8("not an image");

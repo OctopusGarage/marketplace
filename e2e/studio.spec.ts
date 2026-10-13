@@ -10,7 +10,7 @@ const sampleZip = resolve(
     JSON.parse(readFileSync("site/catalog.json", "utf8")) as {
       packs: { id: string; file: string }[];
     }
-  ).packs.find((pack) => pack.id === "noto-favorites")!.file,
+  ).packs.find((pack) => pack.id === "google-noto")!.file,
 );
 
 test("decodes every published catalog pack in the browser", async ({
@@ -48,10 +48,10 @@ test("validates a sticker ZIP locally and shows its pack details", async ({
   await page.goto("/studio/");
   await page.locator("#zip-input").setInputFiles(sampleZip);
   await expect(page.locator("#result-badge")).toHaveText("Passed");
-  await expect(page.locator("#result-title")).toHaveText("Noto Favorites");
+  await expect(page.locator("#result-title")).toHaveText("Google Noto");
   await expect(page.locator("#result-facts")).toContainText("sticker");
-  await expect(page.locator("#result-facts")).toContainText("8");
-  await expect(page.locator("#preview img")).toHaveCount(8);
+  await expect(page.locator("#result-facts")).toContainText("40");
+  await expect(page.locator("#preview img")).toHaveCount(40);
   expect(uploads).toEqual([]);
 });
 
